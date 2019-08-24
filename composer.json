@@ -1,11 +1,11 @@
 {
-    "name": "carpcai/swoft-captcha",
+    "name": "gzh413/captcha",
     "description": "A captcha for swoft framework",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Carp Cai",
+            "name": "gzh413",
             "email": "563998753@qq.com"
         }
     ],
