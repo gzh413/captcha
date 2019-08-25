@@ -1,0 +1,18 @@
+{
+    "name": "gzh413/captcha",
+    "description": "captcha package for thinkphp5",
+    "authors": [
+        {
+            "name": "gzh413",
+            "email": "448901948@qq.com"
+        }
+    ],
+    "license": "Apache-2.0",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Captcha\\": "src/"
+        }
+    }
+}
