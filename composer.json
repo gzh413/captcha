@@ -1,5 +1,5 @@
 {
-    "name": "gzh413/swoft2-captcha",
+    "name": "gzh413/captcha",
     "description": "captcha package for thinkphp5",
     "authors": [
         {
@@ -11,6 +11,7 @@
     "require": {
     },
     "autoload": {
+        "files": ["src/helper.php"],
         "psr-4": {
             "Captcha\\": "src/"
         }

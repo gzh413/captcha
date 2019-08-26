@@ -9,11 +9,10 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace think\captcha;
+namespace Captcha;
 
-use Swoft\Http\Message\ContentType;
 use Swoft\Redis\Redis;
-use think\facade\Session;
+
 
 class Captcha
 {
@@ -106,23 +105,19 @@ class Captcha
      * @param string $id   验证码标识
      * @return bool 用户验证码是否正确
      */
-    public function check($code, $id = '')
+    public function check($code, $id)
     {
-        $key = $this->authcode($this->seKey) . $id;
+
+        $key = $this->authcode($this->seKey);
         // 验证码不能为空
-        $secode = Redis::get($key, '');
+        $secode = Redis::get($key . $id);
+        $secode = json_decode($secode,true);
         if (empty($code) || empty($secode)) {
-            return false;
-        }
-        // session 过期
-        if (time() - $secode['verify_time'] > $this->expire) {
-            Redis::del($key, '');
-            //Redos($key, '');
             return false;
         }
 
         if ($this->authcode(strtoupper($code)) == $secode['verify_code']) {
-            $this->reset && Redis::del($key, '');
+            $this->reset && Redis::del($key . $id);
             return true;
         }
 
@@ -201,15 +196,18 @@ class Captcha
         $secode                = [];
         $secode['verify_code'] = $code; // 把校验码保存到session
         $secode['verify_time'] = time(); // 验证码创建时间
-         Redis::set($key . $id, $secode);
+        $secode = json_encode($secode);
+        Redis::setex($key . $id, 300,$secode);
 //        Session::set($key . $id, $secode, '');
 
         ob_start();
         // 输出图像
         imagepng($this->im);
         $content = ob_get_clean();
+        //$base64 = base64_encode($content);
         imagedestroy($this->im);
         //var_dump($content);
+        //$img_base64 = 'data:image/png;base64,' . $base64;
         return $content;
 //        return response()->withHeader('Content-type', 'image/png')->withContent($content);
         //return \response()->withContentType('image/png')->withContent($content);

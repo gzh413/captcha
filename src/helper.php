@@ -16,6 +16,7 @@
 //});
 //
 //Validate::setTypeMsg('captcha', ':attribute错误!');
+use Captcha\Captcha;
 
 /**
  * @param string $id
@@ -24,7 +25,7 @@
  */
 function captcha($id = '', $config = [])
 {
-    $captcha = new \think\captcha\Captcha($config);
+    $captcha = new Captcha($config);
     return $captcha->entry($id);
 }
 
